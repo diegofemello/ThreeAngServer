@@ -9,6 +9,11 @@ const io = require("socket.io")(http, {
   },
 });
 
+// health check
+app.get("/", (req, res) => {
+  res.send("Health!")
+});
+
 const players = [];
 
 io.on("connection", (socket) => {
