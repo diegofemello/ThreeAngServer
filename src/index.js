@@ -9,6 +9,11 @@ const io = require("socket.io")(http, {
   },
 });
 
+// dotenv
+require("dotenv").config();
+
+const port = process.env.PORT || 8080;
+
 // health check
 app.get("/", (req, res) => {
   res.send("Health!")
@@ -75,6 +80,7 @@ io.on("connection", (socket) => {
   console.log(`Socket ${socket.id} has connected`);
 });
 
-http.listen(8080, () => {
-  console.log("Listening on port 8080");
+
+http.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });
