@@ -9,7 +9,7 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'b423d5e7-9838-48d4-a014-589d002299ed'
+  azureSubscription: 'Visual Studio Professional Subscription(b423d5e7-9838-48d4-a014-589d002299ed)'
 
   # Web app name
   webAppName: 'threeangserver'
