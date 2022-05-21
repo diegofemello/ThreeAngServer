@@ -12,7 +12,7 @@ variables:
   azureSubscription: 'Visual Studio Professional Subscription (b423d5e7-9838-48d4-a014-589d002299ed)'
 
   # Web app name
-  webAppName: 'threeangserver'
+  webAppName: 'threeang'
 
   # Environment name
   environmentName: 'three-ang-server'
@@ -80,7 +80,7 @@ stages:
             inputs:
               ConnectionType: 'AzureRM'
               azureSubscription: $(azureSubscription)
-              appType: 'webAppLinux'
+              appType: 'webApp'
               WebAppName: $(webAppName)
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               RuntimeStack: 'NODE|16-lts'
