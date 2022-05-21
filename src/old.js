@@ -1,7 +1,6 @@
-const express = require("express");
-const app = express();
-const server = require("http").createServer(app);
-const io = require("socket.io")(server, {
+const app = require("express")();
+const http = require("http").Server(app);
+const io = require("socket.io")(http, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
@@ -9,16 +8,14 @@ const io = require("socket.io")(server, {
     credentials: true,
   },
 });
-require("dotenv").config();
-const port = process.env.PORT || 8080;
 
-server.listen(port, () => {
-  console.log("Server listening at port %d", port);
-});
+require("dotenv").config();
+
+const port = process.env.PORT || 8080;
 
 // health check
 app.get("/", (req, res) => {
-  res.send("Health!");
+  res.send("Health!")
 });
 
 const players = [];
@@ -44,7 +41,7 @@ io.on("connection", (socket) => {
       safeJoin(player.uid);
       io.emit("players", players);
       socket.emit("player", player);
-    }
+    } 
   });
 
   socket.on("playerMove", (player) => {
@@ -80,4 +77,9 @@ io.on("connection", (socket) => {
   socket.emit("players", players);
 
   console.log(`Socket ${socket.id} has connected`);
+});
+
+
+http.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });
