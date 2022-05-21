@@ -9,7 +9,7 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'Visual Studio Professional Subscription(b423d5e7-9838-48d4-a014-589d002299ed)'
+  azureSubscription: 'Visual Studio Professional Subscription (b423d5e7-9838-48d4-a014-589d002299ed)'
 
   # Web app name
   webAppName: 'threeangserver'
@@ -66,22 +66,22 @@ stages:
         deploy:
           steps:
 
-          - task: AzureWebApp@1
-            displayName: 'Azure Web App Deploy: threeangserver'
-            inputs:
-              azureSubscription: 'Visual Studio Professional Subscription (b423d5e7-9838-48d4-a014-589d002299ed)'
-              appType: webAppLinux
-              appName: $(webAppName)
-              runtimeStack: 'NODE|16-lts'
-              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-              startUpCommand: 'npm start'
+          # - task: AzureWebApp@1
+          #   displayName: 'Azure Web App Deploy: threeangserver'
+          #   inputs:
+          #     azureSubscription: $(azureSubscription)
+          #     appType: webAppLinux
+          #     appName: $(webAppName)
+          #     runtimeStack: 'NODE|16-lts'
+          #     package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+          #     startUpCommand: 'npm start'
               
-              # - task: AzureRmWebAppDeployment@4
-              #   inputs:
-              #     ConnectionType: 'AzureRM'
-              #     azureSubscription: 'Visual Studio Professional Subscription (b423d5e7-9838-48d4-a014-589d002299ed)'
-              #     appType: 'webAppLinux'
-              #     WebAppName: 
-              #     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-              #     RuntimeStack: 'NODE|16-lts'
-              #     StartupCommand: 'npm start'
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: $(azureSubscription)
+              appType: 'webAppLinux'
+              WebAppName: $(webAppName)
+              packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+              RuntimeStack: 'NODE|16-lts'
+              StartupCommand: 'npm start'
