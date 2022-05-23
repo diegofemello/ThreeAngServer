@@ -48,11 +48,21 @@ io.on("connection", (socket) => {
   });
 
   socket.on("playerMove", (player) => {
-    player.socketId = socket.id;
+    const oldPlayer = players.find((p) => p.uid === player.uid);
     const index = players.findIndex((p) => p.uid === player.uid);
-    players[index] = player;
-    socket.to(player.uid).emit("player", player);
-    socket.to(player.uid).emit("playersMovement", players);
+
+    if (index !== -1) {
+      players[index] = {
+        uid: player.uid,
+        username: oldPlayer.username,
+        position: player.position,
+        rotation: player.rotation,
+        socketId: socket.id,
+        style: oldPlayer.style,
+      };
+      socket.to(player.uid).emit("player", player);
+      socket.to(player.uid).emit("playersMovement", players);
+    }
   });
 
   socket.on("getPlayer", (playerId) => {
@@ -71,6 +81,7 @@ io.on("connection", (socket) => {
     players.forEach((player) => {
       if (player.socketId === socket.id) {
         players.splice(players.indexOf(player), 1);
+        tempRemoved.push(player);
       }
     });
 
