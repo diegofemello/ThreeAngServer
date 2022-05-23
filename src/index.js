@@ -16,7 +16,6 @@ server.listen(port, () => {
   console.log("Server listening at port %d", port);
 });
 
-// health check
 app.get("/", (req, res) => {
   res.send("Health!");
 });
@@ -81,7 +80,6 @@ io.on("connection", (socket) => {
     players.forEach((player) => {
       if (player.socketId === socket.id) {
         players.splice(players.indexOf(player), 1);
-        tempRemoved.push(player);
       }
     });
 
