@@ -42,32 +42,30 @@ io.on("connection", (socket) => {
       players.push(player);
       safeJoin(player.uid);
       io.emit("players", players);
-      socket.emit("player", player);
     }
   });
 
   socket.on("playerMove", (player) => {
-    const oldPlayer = players.find((p) => p.uid === player.uid);
-    const index = players.findIndex((p) => p.uid === player.uid);
+    const playerInArray = players.find((p) => p.uid === player.uid);
 
-    if (index !== -1) {
-      players[index] = {
-        uid: player.uid,
-        username: oldPlayer.username,
-        position: player.position,
-        rotation: player.rotation,
-        socketId: socket.id,
-        style: oldPlayer.style,
-      };
+    if (playerInArray) {
+      playerInArray.position = player.position;
+      playerInArray.rotation = player.rotation;
+
       socket.to(player.uid).emit("player", player);
       socket.to(player.uid).emit("playersMovement", players);
     }
   });
 
-  socket.on("getPlayer", (playerId) => {
-    safeJoin(playerId);
-    const player = players.find((p) => p.uid === playerId);
-    socket.emit("player", player);
+  socket.on("playerStyle", (player) => {
+    const playerInArray = players.find((p) => p.uid === player.uid);
+
+    if (playerInArray) {
+      playerInArray.style = player.style;
+
+      socket.to(player.uid).emit("player", player);
+      socket.to(player.uid).emit("playersMovement", players);
+    }
   });
 
   socket.on("getPlayers", (playerId) => {
