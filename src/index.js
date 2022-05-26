@@ -51,6 +51,8 @@ io.on("connection", (socket) => {
     if (playerInArray) {
       playerInArray.position = player.position;
       playerInArray.rotation = player.rotation;
+      playerInArray.previousState = playerInArray.state;
+      playerInArray.state = player.state;
 
       socket.to(player.uid).emit("player", player);
       socket.to(player.uid).emit("playersMovement", players);
