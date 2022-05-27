@@ -75,7 +75,6 @@ io.on("connection", (socket) => {
     socket.emit("playersMovement", players);
   });
 
-  // on disconnect
   socket.on("disconnect", () => {
     players.forEach((player) => {
       if (player.socketId === socket.id) {
